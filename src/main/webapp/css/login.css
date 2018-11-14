@@ -1,0 +1,62 @@
+.container{
+	height:100%;
+	width:100%;
+	background:url(../image/login/background-img.jpg) center no-repeat;
+	background-size: contain;
+	text-align:center;
+}
+.login-action{
+	position:absolute;
+	top:35%;
+	right:5%;;
+	height:43%;
+	width:300px;
+	margin:20px;
+	text-align:left;
+}
+td.center{
+	 height:55px;
+	 text-align:center;
+	 margin:auto;
+	
+}
+div.radius{
+	height:45px;
+	 width:280px;
+	 border-radius: 15px;
+	 border:1px solid #004080;
+	 background:#fff ! important;
+}
+img{
+	position:relative;
+	top:5px;
+	left:0px;
+}
+input{
+		position:relative;
+		top:10px;
+		height:25px;
+		width:210px;
+		background:transparent ! important;
+		color:#c0c0c0! important;
+		border:0px;
+		font-size: 15px;
+		outline:none;
+}
+.loginbam{
+		position:relative;
+		top:2px;
+		height:40px;
+		background:#fff;
+		font-weight: bold;
+}
+.findPassword{
+	position:absolute;
+	right:10%;
+	color:#fff;
+	font-weight: bold;
+}
+td h1{
+	font-size:10px;
+	color:red;
+}

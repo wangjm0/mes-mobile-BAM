@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath*:applicationContext-web.xml,classpath*:spring/spring-*.*</param-value>
+    </context-param>
+    <listener>
+    	<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+    
+    <!-- 解决spring data jpa 懒加载 no session-->
+  <filter>
+      <filter-name>openEntityManagerInViewFilter</filter-name>
+      <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+      <init-param>
+            <param-name>entityManagerFactoryBeanName</param-name>
+            <param-value>entityManagerFactory</param-value>
+        </init-param>
+  </filter>
+  <filter-mapping>
+      <filter-name>openEntityManagerInViewFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+  </filter-mapping>
+    
+    
+     <!-- 用户权限模块 -->
+   <!-- <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping> -->
+    
+    <!-- spring mvc 配置 -->
+    <!-- 配置DispatcherServlet表示，该工程将采用springmvc的方式。启动时也会默认在/WEB-INF目录下查找XXX-servlet.xml作为配置文件，
+        XXX就是DispatcherServlet的名字，该文件中将配置两项重要的mvc特性：HandlerMapping,负责为DispatcherServlet这个前端控制器的请求查找Controller；
+        ViewResolver,负责为DispatcherServlet查找ModelAndView的视图解析器。
+        此处使用指定的配置文件spring-mvc.xml -->
+     
+    <servlet>
+        <servlet-name>mes-mobile-BAM</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>  
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath*:spring/spring-mvc.xml</param-value>
+        </init-param>   
+        <load-on-startup>1</load-on-startup>  
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>mes-mobile-BAM</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    
+    
+    
+    <!-- 配置ContextLoaderListener表示，该工程要以spring的方式启动。启动时会默认在/WEB-INF目录下查找applicationContext.xml
+作为spring容器的配置文件，该文件里可以初始化一些bean -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    
+    
+    <!-- 字符集过滤器 -->  
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+	  <context-param>
+	    <param-name>webAppRootKey</param-name>
+	    <param-value>springdatajpa.root</param-value>
+	  </context-param>
+	  <!-- 配置缓存清除监听器,负责处理由 JavaBean Introspector 功能而引起的缓存泄露 -->
+	  <listener>  
+	      <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>  
+	  </listener>
+	  
+    <welcome-file-list>  
+        <welcome-file>system/login.do</welcome-file>  
+    </welcome-file-list>  
+    
+    <!-- 2.替换404页面 start -->
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/pages/system/error.jsp</location>
+  </error-page>
+    
+    
+<!--   <servlet>
+   <servlet-name>404</servlet-name>
+   <jsp-file>/WEB-INF/pages/system/error.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>404</servlet-name>
+   <url-pattern>/error</url-pattern>
+  </servlet-mapping> -->
+    
+    
+</web-app>

@@ -1,0 +1,24 @@
+@charset "UTF-8";
+.divfooter{
+	position:fixed;
+	bottom:0px;
+	height:10%;
+	width:100%;
+	background:#fff;
+	color:#c0c0c0;
+	text-align:center;
+	font-size:10px;
+}
+.footer:visited{
+	color:#CCCCFF;
+}
+.footer:link{
+	color:#c0c0c0;	
+}
+.footer:hover{
+	color:#66CCFF;
+}
+
+.divheader{
+	text-align:left;
+}
