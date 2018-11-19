@@ -44,7 +44,7 @@
 		/> </mvc:message-converters> </mvc:annotation-driven> -->
 
 	<!-- 使用fastjson作为默认的json处理 -->
-	<mvc:annotation-driven>
+ 	<mvc:annotation-driven>
 		<mvc:message-converters register-defaults="false">
 			<ref bean="stringHttpMessageConverter" />
 			<ref bean="fastJsonHttpMessageConverter" />

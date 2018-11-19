@@ -76,5 +76,23 @@ public class User extends BaseEntity
      * 是否管理员（默认否）
      */
     private boolean admin;
+  
+	public User()
+	{
+		super();
+		// TODO 自动生成的构造函数存根
+	}
+
+  
+	public User(String userId, String userName, String passWord, boolean admin)
+	{
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.passWord = passWord;
+		this.admin = admin;
+	}
+
+
 
 }

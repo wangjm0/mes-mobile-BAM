@@ -32,7 +32,7 @@ img{
 	top:5px;
 	left:0px;
 }
-input{
+td input{
 		position:relative;
 		top:10px;
 		height:25px;
@@ -59,4 +59,35 @@ input{
 td h1{
 	font-size:10px;
 	color:red;
+}
+
+.fixed-hidden
+{
+	position:fixed;
+ 	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
+	z-index:1000;  
+	background:#fff;
+	height:300px;
+	width:280px;
+	border-radius: 15px;
+	border:5px outset #c0c0c0;
+}
+p#message{
+	text-indent:10px;
+	margin:30px 30px;
+	font-weight:bolder;
+}
+input.check{
+	height:25px;
+	width:50px;
+	background-color:#3399FF;
+	color:#fff;
+	
+	position:fixed;
+	bottom:10px;
+	right:10px;
+	border:2px solid ;
+	border-radius: 5px;
 }

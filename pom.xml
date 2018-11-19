@@ -98,6 +98,8 @@
 			<version>${javax.servlet.jsp-api.version}</version>
 			<scope>provided</scope>
 		</dependency>
+	
+<!-- 	c等标签的使用  -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>

@@ -1,16 +1,18 @@
 package com.ctgf.wxmes.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("system") 
 public class SystemController
 {
 	@RequestMapping("login")
-	public String login(String userName, String password)
+	public String login(HttpServletRequest request, String userName, String password)
 	{ 
+		request.setAttribute("message", request.getParameter("message"));  
 		return "system/login";
 	}
 	

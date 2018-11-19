@@ -18,7 +18,13 @@
 .footer:hover{
 	color:#66CCFF;
 }
-
 .divheader{
 	text-align:left;
+}
+.logo{
+	width:50%;
+	float:left;
+}
+.header-action{
+	float:right;
 }

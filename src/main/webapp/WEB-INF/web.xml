@@ -89,7 +89,7 @@
 	  </listener>
 	  
     <welcome-file-list>  
-        <welcome-file>system/login.do</welcome-file>  
+        <welcome-file>login.do</welcome-file>  
     </welcome-file-list>  
     
     <!-- 2.替换404页面 start -->

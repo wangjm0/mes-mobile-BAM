@@ -2,14 +2,11 @@ package com.ctgf.wxmes.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import com.ctgf.wxmes.dao.UserDao;
+import com.ctgf.wxmes.entity.User;
 
 @Service
 public class UserService 
@@ -17,24 +14,30 @@ public class UserService
 	@Autowired
 	private UserDao userDao;
 	
-	public boolean findByUserName(String userName)
+	public User findById(String userId)
 	{
-		List<Object[]> list = userDao.findByUserName(userName);		
-		if(list != null)
+	User user = userDao.findByUserId(userId);
+		if(user == null)
 		{
-			return true;
+			return null;
 		}
-		return false;
+		return user;
+	}
+	
+	public 	List<User> findByUserName(String userName)
+	{
+		 return userDao.findByUserName(userName);		
 	}
 	
 	public boolean login(String userName, String passWord)
 	{
-		List<Object[]> list = userDao.login(userName, passWord);
-		if(list != null)
+		List<Object> list = userDao.login(userName, passWord);
+	
+		if(list.isEmpty())
 		{
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	/*	String message = null;
 		
 		try
@@ -76,18 +79,18 @@ public class UserService
 		return false;*/
 	}
 	
-	public String addUser(String userId, String userName, String passWord) 
+	public String addUser(String userId, String userName, String passWord, int admin) 
 	{
 		String message = null;
 		try
 		{
-			List<Object[]> userList = userDao.findByUserId(userId);
-			if(userList != null)
+			User user = userDao.findByUserId(userId);
+			if(user != null)
 			{
 				message = "添加错误，用戶ID已存在！";
 			}
 			else {
-				boolean isSuccess = userDao.addUser(userId, userName, passWord);
+				boolean isSuccess = userDao.addUser(userId, userName, passWord, admin);
 				if(isSuccess == true)
 				{
 					message = "添加成功！";
@@ -104,6 +107,16 @@ public class UserService
 		return message;
 	}
 	
+	
+	public List<User> findAll()
+	{
+		return  userDao.findAll();
+	}
+	
+	public List<User> findAdmin()
+	{
+		return userDao.findAdmin();
+	}
 /*	public void getUrl(HttpServletRequest request, HttpServletResponse response, String message)
 	{
 		 try {
@@ -113,4 +126,6 @@ public class UserService
 			e.printStackTrace();
 		}
 	}*/
+	
+	
 }

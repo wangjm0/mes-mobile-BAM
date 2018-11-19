@@ -16,7 +16,7 @@
     http://www.springframework.org/schema/tx 
     http://www.springframework.org/schema/tx/spring-tx-4.3.xsd 
     http://www.springframework.org/schema/data/jpa
-    http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd">
+	http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd">
 
 	 <!-- 与上面的配置等价，下面的更容易理解 -->
 	 <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
