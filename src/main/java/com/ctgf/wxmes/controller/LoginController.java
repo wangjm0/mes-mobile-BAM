@@ -24,9 +24,15 @@ public class LoginController
 {
 	@Autowired
 	private UserService userService;
-
+	
+	@Autowired
+	private HttpSession session;
+	
+	@Autowired
+	private HttpServletRequest request;
+	
 	@RequestMapping("isLogin")
-	public String isLogin(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam(name="username", required = false) String username, @RequestParam(name="password", required = false) String password)
+	public String isLogin( Model model, @RequestParam(name="username", required = false) String username, @RequestParam(name="password", required = false) String password)
 	{
 		if(username == null || password == null || username.equals("") || password.equals(""))
 		{
@@ -55,7 +61,7 @@ public class LoginController
 		if(list.isEmpty())
 		{
 			res.put("success", false);
-			res.put("bn", true);
+			res.put("bn", false);
 			res.put("message", "没有用户存在，是否创建新用户？");
 		}
 		else
@@ -64,7 +70,7 @@ public class LoginController
 			if(list.isEmpty())
 			{
 				res.put("success", false);
-				res.put("bn", false);
+				res.put("bn", true);
 				res.put("message", "没有管理员存在，是否选择现有用户成为管理员？");
 			}
 			else 
@@ -72,6 +78,8 @@ public class LoginController
 				res.put("success", true);
 			}
 		}
+		res.put("pageNo", session.getAttribute("pageNo"));
+		res.put("msg", session.getAttribute("msg"));
 		return res;
 	}
 }

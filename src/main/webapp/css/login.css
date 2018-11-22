@@ -5,6 +5,9 @@
 	background-size: contain;
 	text-align:center;
 }
+input{
+	display:inline;
+}
 .login-action{
 	position:absolute;
 	top:35%;
@@ -32,7 +35,7 @@ img{
 	top:5px;
 	left:0px;
 }
-td input{
+.radius input{
 		position:relative;
 		top:10px;
 		height:25px;
@@ -41,7 +44,6 @@ td input{
 		color:#c0c0c0! important;
 		border:0px;
 		font-size: 15px;
-		outline:none;
 }
 .loginbam{
 		position:relative;
@@ -72,22 +74,114 @@ td h1{
 	height:300px;
 	width:280px;
 	border-radius: 15px;
-	border:5px outset #c0c0c0;
+	border:5px outset #99CCFF;
 }
 p#message{
 	text-indent:10px;
 	margin:30px 30px;
 	font-weight:bolder;
 }
-input.check{
+.check{
 	height:25px;
 	width:50px;
 	background-color:#3399FF;
 	color:#fff;
-	
 	position:fixed;
 	bottom:10px;
 	right:10px;
+	border:2px solid ;
+	border-radius: 5px;
+}
+ .hidden-createUser 
+{
+	position:fixed;
+ 	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
+	z-index:999;  
+	background:#fff;
+	height:300px;
+	width:280px;
+	border-radius: 15px;
+	border:5px outset #99CCFF;
+}
+td.font-left{
+	text-align:right;
+	width:80px;
+}
+tr.create 
+{
+	height:30px;
+	
+}
+input.create{
+	background:#fff !important;
+	top:0px;
+	border:1px solid;
+	width:150px;
+	color:#000000 !important;
+}
+input.checkbox{
+	width:20px;
+	height:30px;
+	position:relative;
+	font-size:8px !important;
+	display:inline;
+	background:#3399FF;
+	top:0px;
+	margin:0px;
+	/* 复选框和提示文字对齐属性 */
+	vertical-align:middle;
+}
+
+.hidden-getAdmin
+{
+	position:fixed;
+ 	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
+	z-index:999;  
+	background:#fff;
+	height:600px;
+	width:500px;
+	border-radius: 15px;
+	border:5px outset #99CCFF;
+	display:inline;
+	text-align:center;
+}
+.userList{
+	
+	margin:10px auto;
+}
+td.list{
+	width:450px;
+	border:1px ridge #99CCCC;
+	padding:5px 50px;
+}
+td.list input{
+	width:20px;
+}
+label a{
+	/*之间出现8px的间隔  */
+	display:inline-block;
+}
+.findUser{
+	height:32px;
+	/* input放入图片 一定设置padding-left设置为图片宽度*/
+	background:#fff  url(../image/search.png) no-repeat;
+	padding-left:30px;
+	border:2px solid #99CCCC;
+	margin:5px 0;
+	
+}
+.user{
+	height:25px;
+}
+.button{
+	height:32px;
+	width:50px;
+	background-color:#3399FF;
+	color:#fff;
 	border:2px solid ;
 	border-radius: 5px;
 }
