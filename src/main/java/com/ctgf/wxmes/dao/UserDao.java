@@ -15,9 +15,9 @@ import com.ctgf.wxmes.entity.User;
 public interface UserDao extends PagingAndSortingRepository<User, Integer>, JpaSpecificationExecutor<User>
 {
 	
-	@Query(value = "update BAMUser set(userId = :userId, userName = :userName, passWord = :passWord", nativeQuery = true)
+	@Query(value = "update BAMUser set(userId = :userId, userName = :userName, passWord = :passWord, admin =:admin", nativeQuery = true)
 	boolean updateUser(@Param("userId") String userId, @Param("userName") String userName,
-			@Param("passWord") String passWord);
+			@Param("passWord") String passWord, @Param("admin") boolean admin);
 
 	@Query(value = "delete * from BAMUser where userId = :userId", nativeQuery = true)
 	boolean deleteUser(@Param("userId") String userId);

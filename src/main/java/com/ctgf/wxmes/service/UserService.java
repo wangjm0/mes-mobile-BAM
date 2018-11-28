@@ -67,14 +67,19 @@ public class UserService
 		 * message); return false;
 		 */
 	}
+	/*
+	 * public User save(String userId, String username, String password, boolean
+	 * admin) { return userDao.save(new User(userId, username, password, admin)); }
+	 */
 	
-	public JSONObject addUser(String userId, String userName, String passWord, int admin)
+	public JSONObject addUser(String userId, String userName, String passWord, boolean admin)
 	{
 		JSONObject json = new JSONObject();
 		try
 		{
 			User user = userDao.findByUserId(userId);
-			if(user != null)
+			User user1 = (User) session.getAttribute("user");
+			if(user != null && !user.equals(user1))
 			{
 				json.put("success", false);
 				json.put("message", "添加错误，用戶ID已存在！");
@@ -83,15 +88,19 @@ public class UserService
 			else
 			{
 				user = new User();
-				user.setAdmin(admin == 1);
+				user.setAdmin(admin);
 				user.setPassWord(passWord);
 				user.setUserId(userId);
 				user.setUserName(userName);
 				user = userDao.save(user);
+				
 				if(user != null)
 				{
+					
+					System.out.println(user.toString());
 					json.put("success", true);
 					json.put("message", "添加成功！");
+					session.setAttribute("user", user);
 				}
 				else
 				{

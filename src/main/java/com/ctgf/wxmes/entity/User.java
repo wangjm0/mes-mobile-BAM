@@ -12,6 +12,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.type.NumericBooleanType;
+
 import com.alibaba.fastjson.annotation.JSONField;
 
 import lombok.Data;
@@ -56,7 +58,7 @@ public class User extends BaseEntity
 	@Column(length=32, nullable = false)
 	private String userName;
 	
-	
+
 	/**
 	 * 密码
 	 */
@@ -75,6 +77,7 @@ public class User extends BaseEntity
     /**
      * 是否管理员（默认否）
      */
+    @Column
     private boolean admin;
   
 	public User()

@@ -32,7 +32,7 @@ public class UserController
 			@RequestParam(name = "username2", required = false) String username,
 			@RequestParam(name = "password1", required = false) String password1,
 			@RequestParam(name = "password2", required = false) String password2,
-			@RequestParam(name = "admin", required = false) String admin)
+			@RequestParam(name = "admin", required= true) boolean admin)
 	{
 		String message = null;
 	
@@ -43,16 +43,20 @@ public class UserController
 			message = "用户ID、用户名、用户密码都不能为空";
 		}
 		else if(password1.equals(password2))
-		{
-			int a = 0;
+		{/*
+			boolean a = false;
 			if(admin != "" && admin != null)
 			{
-				a = Integer.valueOf(admin);
-			}
-			json = userService.addUser(userId, username, password1, a);
-			if(json.getBooleanValue("success"))
+				a =true;
+			}*/
+			json = userService.addUser(userId, username, password1, admin);
+			if(json.getBooleanValue("success") && admin )
 			{
 				return "redirect:/index.do";
+			}
+			else if(json.getBooleanValue("success") && !admin)
+			{
+				return "redirect:/login.do";
 			}
 			else
 			{
@@ -85,7 +89,6 @@ public class UserController
 	}
 	
 	@RequestMapping("setAdmin")
-	@ResponseBody
 	public String setAdmin(@RequestParam(name = "userId", required = false) String userId)
 	{
 		if(userService.setAdmin(userId))
@@ -95,5 +98,34 @@ public class UserController
 			return "redirect:/index.do";
 		}
 		return "redirect:/login.do";
+	}
+	
+	@RequestMapping("findByUserId")
+	@ResponseBody
+	public JSONObject findByUserId(@RequestParam(name = "userId", required = false) String userId)
+	{
+		JSONObject res = new JSONObject();
+		User user = userService.findByUserId(userId);
+		if(user!=null)
+		{
+			res.put("success", true);
+			res.put("user", user);
+			session.setAttribute("user", user);
+		}
+		return res;
+	}
+	
+	/**
+	 * 添加或保存用户
+	 */
+	@RequestMapping("save")
+	public String save(@RequestParam(name = "userId", required = false) String userId,
+			@RequestParam(name = "username", required = false) String username,
+			@RequestParam(name = "password", required = false) String password,
+			@RequestParam(name = "admin",required= true) boolean admin)
+	{
+		JSONObject json = userService.addUser(userId, username, password, admin);
+		session.setAttribute("message", json.getString("message"));
+		return "redirect:/user.do";
 	}
 }

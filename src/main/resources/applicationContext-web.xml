@@ -111,7 +111,7 @@
    	<!-- <bean id="auditorBean" class="com.eahsoft.springframework.util.NullAuditorBean"/>
 	<jpa:auditing auditor-aware-ref="auditorBean"/> -->
 	<!-- 自动插入时间 -->
-	<jpa:auditing set-dates="true"/>
+<jpa:auditing set-dates="true"/>
    
   	<!-- 开启注解事务 -->
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
