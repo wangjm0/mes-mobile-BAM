@@ -4,11 +4,15 @@
 <%@taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"  %>
 <%@taglib  prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
 <%request.setAttribute("contextPath", request.getContextPath());%>
+<%request.setAttribute("path", request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"); %>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <script type="text/javascript">var contextPath = '${contextPath}';</script>
 <!-- css -->
 <link rel="stylesheet" href="${contextPath}/plugins/bootstrap/css/bootstrap.min.css" type="text/css">
+
 <!-- jquery -->
 <script type="text/javascript" src="${contextPath}/plugins/jquery/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="${contextPath}/plugins/jquery/jquery.easyui.min.js"></script>
 <!-- bootatrap -->
 <script type="text/javascript" src="${contextPath}/plugins/bootstrap/js/bootstrap.min.js"></script>
 <!-- vue -->

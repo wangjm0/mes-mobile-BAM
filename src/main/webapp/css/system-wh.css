@@ -1,0 +1,70 @@
+@charset "UTF-8";
+body {
+	background-size: 100% 100%;
+}
+.container {
+	/* 	background: rgba(255, 255, 255, 0.6); */
+	margin: 0 8%;
+	padding:0;
+	display:block;
+}
+/*功能块  */
+.first-action {
+	width: 100%;
+	border-radius: 5px;
+	height:10%;
+}
+
+.list {
+	padding: 0px;
+	width: 100%;
+}
+
+.list li {
+	text-align: center;
+	/* 去掉圆点 */
+	list-style: none;
+	/*横排  */
+	float: left;
+	padding-right: 40px;
+	margin: 10px 0; height : 40px;
+	font-size: 23px;
+	font-weight: bold;
+	/* border: 5px outset #99CCFF; 
+	 background: #99CCFF; */
+	border-radius: 5px;
+	height: 40px;
+	
+}
+
+.action-link {
+	color:#000000;
+}
+.action-link:hover{
+	color:#4A7DCC;
+	text-decoration: none;
+}
+div.createUser{
+	transform: translate(45%, 20%); 
+	height: 400px;
+	width: 700px;
+}
+td.font-left{
+	color:#000!important;
+}
+tr.create{
+	height:50px;
+	width:500px;
+	margin:10px;
+}
+input.create{
+	height:45px;
+	width:280px;
+	border-radius: 10px;
+}
+input.createUser{
+	background:#008cf2e0;
+	border-radius: 10px;
+	font-weight:bolder;
+	color:#fff;
+}

@@ -17,7 +17,6 @@ function getUserListByPage(pageNo)
 				/*self.location.replace(location.href); */
 				/*window.location.reload();*/
 			}
-			alert("加载");
 		});
 /*	 $.ajax({
 			url:contextPath+"/user/getUserListByPage.do?pageNo="+pageNo,
@@ -34,18 +33,3 @@ function getUserListByPage(pageNo)
 		 });*/
 }
 
-function getUser(userId)
-{
-	$.post(contextPath + '/user/findByUserId.do', {'userId' :userId},function(res){
-		if(!res.success)
-		{
-			alert("用戶不存在");
-		}
-		else
-		{
-			window.location.href=("user.do");
-			/*window.location.reload(true);*/
-		}
-		/*window.location.reload();*/
-	});
-}

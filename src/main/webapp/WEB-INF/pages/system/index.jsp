@@ -9,7 +9,7 @@
 </head>
 <body>
 <%@include file="base/header.jsp"%>
-	<div class="container">
+	<div class="container1">
 		
 		<%@include file="base/action.jsp"%>
 		<div class="div-actions">
@@ -22,7 +22,7 @@
 				</a>
 			</div>
 				<div class=" div-action  bg1">
-				<a class="sub-action" href="userList.do">
+				<a class="sub-action" href="role/roleListByPage.do?pageNo=1">
 					<span >
 						<img src="${contextPath }/image/index/role.png" />
 						角色管理
@@ -30,19 +30,20 @@
 				</a>
 			</div>
 			<div class=" div-action bg2">
-				<a class="sub-action">
+				<a class="sub-action" href="userRole.do">
 					<span >
 						<img src="${contextPath }/image/index/power.png" />
 						用户权限
 					</span>
 				</a>
 			</div>
+			
 			<!-- 
 			<div class=" div-action bg3">
 				<a class="sub-action  bg3">？？</a>
 			</div> -->
 			<div class=" div-action bg4">
-			<a class="sub-action">
+			<a class="sub-action" href="log.do">
 					<span >
 				<img src="${contextPath }/image/index/log.png" />
 				查看日志

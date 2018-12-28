@@ -1,13 +1,24 @@
 @charset "UTF-8";
-
+body{
+	width:100%;
+}
 .divfooter {
-	bottom: 0px;
-	height: 8%;
+	height: 30px;
 	width: 100%;
 	background: #fff;
 	color: #c0c0c0;
-	text-align: center;
 	font-size: 10px;
+	text-align: center;
+	margin: 0px;
+	padding: 0;
+	display:block;
+}
+
+.divfooter p {
+	margin: 0;
+	padding: 10px;
+	display: inline-block;
+	vertical-align: middle;
 }
 
 .footer:visited {
@@ -25,17 +36,16 @@
 /*logo  */
 .divheader {
 	width: 100%;
-	padding:0 10%;
-	
-	height:10%;
-	background:#fff;
+	padding: 0 10%;
+	height: 50px;
+	background: #fff;
 }
 
 /*功能块  */
 .first-action {
 	width: 100%;
 	border-radius: 5px;
-	height:10%;
+	height: 10%;
 }
 
 .list {
@@ -50,24 +60,29 @@
 	/*横排  */
 	float: left;
 	padding-right: 40px;
-	margin: 10px 0; height : 40px;
+	margin: 10px 0;
+	height: 40px;
 	font-size: 23px;
 	font-weight: bold;
 	/* border: 5px outset #99CCFF; 
 	 background: #99CCFF; */
 	border-radius: 5px;
 	height: 40px;
-	
 }
 
 .action-link {
-	color:#fff;
+	color: #fff;
 }
-.action-link:hover{
-	color:#4A7DCC;
+
+.action-link:hover {
+	color: #4A7DCC;
 	text-decoration: none;
 }
 
+td h1 {
+	font-size: 10px;
+	color: red;
+}
 
 /* 
 两一种导航栏

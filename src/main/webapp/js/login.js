@@ -12,6 +12,22 @@ $(function(){
 	getAdmin.hide();
 	container.css("pointer-events", "auto");
 	checkAll();
+	
+	 $(".saoma").click(function (e) {
+	        $(this).css({ "color": "#333333", "border-bottom": "2px solid #2e558e" });
+	        $(".mima").css({ "color": "#999999", "border-bottom": "2px solid #dedede" });
+	        $(".login-d-saoma").css("display", "block");
+	        $(".login-d-mima").css("display", "none");
+	      
+	    });
+	    $(".mima").click(function (e) {
+	        $(this).css({ "color": "#333333", "border-bottom": "2px solid #2e558e" });
+	        $(".saoma").css({ "color": "#999999", "border-bottom": "2px solid #dedede" });
+	        $(".login-d-mima").css("display", "block");
+	        $(".login-d-saoma").css("display", "none");
+	    });
+
+	    
 });
 
 function checkAll(){
@@ -54,7 +70,6 @@ function getUserListByPage(pageNo)
 				totalpages = res.totalpages;
 				window.location.reload(true); 
 			}
-			window.location.reload(true); 
 		});
 }
 

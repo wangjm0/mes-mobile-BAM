@@ -5,5 +5,5 @@
 <!-- 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">  -->
 <div class="divheader">
-	<div class="logo"><img alt="logo" src="${contextPath }/image/logo1.png"></div>
+	<img alt="logo" src="${contextPath }/image/logo.png" class="img-responsive">
 </div>

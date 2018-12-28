@@ -11,9 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import org.hibernate.type.NumericBooleanType;
-
 import com.alibaba.fastjson.annotation.JSONField;
 
 import lombok.Data;
@@ -22,9 +19,7 @@ import lombok.ToString;
 
 /*******************************************************************************************
  * 类描述：用户
- * @copyright:易和软件有限公司
- * @网址:www.eahsoft.com
- * @author: LIU
+ * @author: wjm
  * @date： 2018年11月6日 下午2:25:03
  * @version 1.0
  *

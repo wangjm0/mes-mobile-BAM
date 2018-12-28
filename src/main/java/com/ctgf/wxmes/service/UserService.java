@@ -1,6 +1,11 @@
 package com.ctgf.wxmes.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,7 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ctgf.wxmes.dao.RoleDao;
 import com.ctgf.wxmes.dao.UserDao;
+import com.ctgf.wxmes.entity.Compound;
+import com.ctgf.wxmes.entity.Page;
+import com.ctgf.wxmes.entity.ProdLine;
+import com.ctgf.wxmes.entity.ProdProcess;
+import com.ctgf.wxmes.entity.Role;
 import com.ctgf.wxmes.entity.User;
 
 @Service
@@ -24,6 +35,9 @@ public class UserService
 	@Autowired
 	private UserDao userDao;
 	
+	@Autowired
+	private RoleService roleService;
+	
 	public User findByUserId(String userId)
 	{
 		User user = userDao.findByUserId(userId);
@@ -36,7 +50,68 @@ public class UserService
 	
 	public List<User> findByUserName(String userName)
 	{
-		return userDao.findByUserName(userName);
+		return userDao.findByName(userName);
+	}
+	
+	@SuppressWarnings("unlikely-arg-type")
+	public Map<String, List<Compound>> getCompoundMap(List<User> userList)
+	{
+		Map<String, List<Compound>> compoundMap = new HashMap<>();
+		Map<String, String> prodLineStr = new HashMap<>();
+		Map<String, String> prodProcessStr = new HashMap<>();
+		Map<String, String> pageStr = new HashMap<>();
+		for (User user : userList)
+		{
+			List<Compound> compoundList = new ArrayList<>();
+			List<Role> roleList = user.getRoleList();
+			//去重
+			roleList =roleList.stream().distinct().collect(Collectors.toList());
+			if(roleList.isEmpty())
+			{
+				continue;
+			}
+			Compound cpd = new Compound();
+			StringBuffer sb = new StringBuffer();
+			StringBuffer sb1 = new StringBuffer();
+			StringBuffer sb2 = new StringBuffer();
+			for (Role role : roleList)
+			{
+				cpd = roleService.getCompound(role.getId());
+				compoundList.add(cpd);
+			}
+			compoundMap.put(user.getId(), compoundList);
+			
+			for (ProdLine pl : cpd.getProdLineList())
+			{
+				sb.append(pl.getName()).append(",");
+			}
+			prodLineStr.put(user.getId(), sb.toString());
+			
+			for (ProdProcess pp : cpd.getProdProcessList())
+			{
+				sb1.append(pp.getName()).append(",");
+			}
+			
+			prodProcessStr.put(user.getId(), sb1.toString());
+			
+			for (Page p : cpd.getPageList())
+			{
+				sb2.append(p.getName()).append(",");
+			}
+			
+			pageStr.put(user.getId(), sb2.toString());
+			
+		}
+		pageStr.remove(Collections.singleton(null)); 
+		session.setAttribute("list", userList);
+		
+		session.setAttribute("compoundMap", compoundMap);
+		request.setAttribute("prodLineStr", prodLineStr);
+		request.setAttribute("prodProcessStr", prodProcessStr);
+		request.setAttribute("pageStr", pageStr);
+		
+		
+		return compoundMap;
 	}
 	
 	public boolean login(String userName, String passWord)
@@ -67,12 +142,37 @@ public class UserService
 		 * message); return false;
 		 */
 	}
+	
+	public boolean update(User user)
+	{
+		if(userDao.findById(user.getId()) != null)
+		{
+			userDao.updateUser(user.getId(), user.getUserId(), user.getUserName(), user.getPassWord(), user.isAdmin());
+			for(Role role : user.getRoleList())
+			{
+				userDao.updateUserRole(role.getId(), user.getId());
+			}
+			return true;
+		}
+		return false;
+//		String id = user.getId();
+//		if(userDao.findById(id) != null)
+//		{
+//			userDao.deletUserRole(id);
+//			userDao.deleteById(id);
+//			
+//			userDao.save(user);
+//			return true;
+//		}
+//		return false;
+		
+	}
+	
 	/*
 	 * public User save(String userId, String username, String password, boolean
 	 * admin) { return userDao.save(new User(userId, username, password, admin)); }
 	 */
-	
-	public JSONObject addUser(String userId, String userName, String passWord, boolean admin)
+	public JSONObject update(String userId, String userName, String passWord, boolean admin)
 	{
 		JSONObject json = new JSONObject();
 		try
@@ -80,6 +180,43 @@ public class UserService
 			User user = userDao.findByUserId(userId);
 			User user1 = (User) session.getAttribute("user");
 			if(user != null && !user.equals(user1))
+			{
+				
+				json.put("success", false);
+				json.put("message", "修改错误，用戶ID已存在！");
+			}
+			else
+			{
+				int isUpdate = userDao.updateUser( user1.getId(),userId, userName, passWord, admin);
+				if(isUpdate == 1)
+				{
+					json.put("success", true);
+					json.put("message", "修改成功！");
+					session.setAttribute("user", new User(userId, userName, passWord, admin));
+				}
+				else
+				{
+					json.put("success", false);
+					json.put("message", "修改失败！");
+				}
+				
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return json;
+	}
+	
+	public JSONObject addUser(String userId, String userName, String passWord, boolean admin)
+	{
+		JSONObject json = new JSONObject();
+		try
+		{
+			User user = userDao.findByUserId(userId);
+			
+			if(user != null)
 			{
 				json.put("success", false);
 				json.put("message", "添加错误，用戶ID已存在！");
@@ -93,7 +230,6 @@ public class UserService
 				user.setUserId(userId);
 				user.setUserName(userName);
 				user = userDao.save(user);
-				
 				if(user != null)
 				{
 					
@@ -118,19 +254,14 @@ public class UserService
 	
 	public List<User> findAll()
 	{
-		return userDao.findAll();
+		return (List<User>) userDao.findAll();
 	}
 	
 	public List<User> findAdmin()
 	{
 		return userDao.findAdmin();
 	}
-	/*
-	 * public void getUrl(HttpServletRequest request, HttpServletResponse response,
-	 * String message) { try {
-	 * response.sendRedirect(request.getContextPath()+message); } catch (IOException
-	 * e) { // TODO 自动生成的 catch 块 e.printStackTrace(); } }
-	 */
+	
 	
 	/**
 	 * 获得用户列表 分页显示 每页10条
@@ -157,9 +288,8 @@ public class UserService
 				json.put("totalpages", totalpages);
 				json.put("pageNo", pageNo);
 				json.put("list", list);
-				
-				session.setAttribute("list", list);
-				session.setAttribute("pageNo", pageNo);
+				getCompoundMap(list);
+				request.setAttribute("pageNo", pageNo);
 				session.setAttribute("totalpages", totalpages);
 				
 				// model.addAttribute("list", list); model.addAttribute("pageNo",pageNo);
@@ -214,4 +344,10 @@ public class UserService
 		}
 		return false;
 	}
+	
+	public void delete(String userId)
+	{
+		userDao.delete(userDao.findByUserId(userId));
+	}
+	
 }

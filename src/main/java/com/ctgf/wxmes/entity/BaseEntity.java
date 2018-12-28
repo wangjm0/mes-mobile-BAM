@@ -3,6 +3,7 @@ package com.ctgf.wxmes.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -28,6 +29,7 @@ public class BaseEntity implements Serializable
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid")
     @GeneratedValue(generator = "uuid")
+    @Column
     private String UUID;
 
     /**

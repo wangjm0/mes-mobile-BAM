@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:p="http://www.springframework.org/schema/p" 
-    xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:cache="http://www.springframework.org/schema/cache"
-    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
     http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
     http://www.springframework.org/schema/context 
     http://www.springframework.org/schema/context/spring-context-4.3.xsd
@@ -18,101 +13,95 @@
     http://www.springframework.org/schema/data/jpa
 	http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd">
 
-	 <!-- 与上面的配置等价，下面的更容易理解 -->
-	 <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	 	<property name="locations"> <!-- PropertyPlaceholderConfigurer类中有个locations属性，接收的是一个数组，即我们可以在下面配好多个properties文件 -->
-	 		<array>
-	 			<value>classpath:jdbc.properties</value>
-	 		</array>
-	 	</property>
-	 </bean>
+	<!-- 与上面的配置等价，下面的更容易理解 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations"> <!-- PropertyPlaceholderConfigurer类中有个locations属性，接收的是一个数组，即我们可以在下面配好多个properties文件 -->
+			<array>
+				<value>classpath:jdbc.properties</value>
+			</array>
+		</property>
+	</bean>
 
 	<!-- 扫描目录 -->
-    <context:component-scan base-package="com.ctgf">
-    	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-    </context:component-scan>
-    
-    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-    <!-- <context:property-placeholder location="classpath:jdbc.properties"  ignore-unresolvable="true"/> -->
+	<context:component-scan base-package="com.ctgf">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
 
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="driverClass" value="${jdbc.driver}" />
-        <property name="jdbcUrl" value="${jdbc.url}" />
-        <property name="user" value="${jdbc.username}" />
-        <property name="password" value="${jdbc.password}" />
-        <property name="initialPoolSize" value="${connection_pools.initial_pool_size}" />
-        <property name="minPoolSize" value="${connection_pools.min_pool_size}" />
-        <property name="maxPoolSize" value="${connection_pools.max_pool_size}" />
-        <property name="maxIdleTime" value="${connection_pools.max_idle_time}" />
-        <property name="acquireIncrement" value="${connection_pools.acquire_increment}" />
-        <property name="checkoutTimeout" value="${connection_pools.checkout_timeout}" />
-    </bean>
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+	<!-- <context:property-placeholder location="classpath:jdbc.properties" ignore-unresolvable="true"/> -->
 
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="com.ctgf.wxmes.entity" />
-        <property name="persistenceProvider">
-            <bean class="org.hibernate.jpa.HibernatePersistenceProvider" />
-        </property>
-        
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="generateDdl" value="false" />
-            </bean>
-        </property>
-        <property name="jpaProperties">
-            <props>
-            	<!-- hibernate设置方言 数据库引擎相关 -->
-                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
-                <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
-                <prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
-                <prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
-                <!--  设置二级缓存的开启关闭 -->
-                <prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
-                <!-- 设置hibernate批量读取及数据提交 -->
-                <prop key="hibernate.jdbc.fetch_size">${hibernate.jdbc.fetch_size}</prop>
-                <prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch_size}</prop>
-                <!--  
-                	1.create：表示启动的时候先drop，再create
-					2.create-drop: 也表示创建，只不过再系统关闭前执行一下drop
-					3.update: 这个操作启动的时候会去检查schema是否一致，如果不一致会做scheme更新
-					4.validate: 启动时验证现有schema与你配置的hibernate是否一致，如果不一致就抛出异常，并不做更新
-                  -->
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
-                <!-- 显示数据库操作 -->
-                <prop key="hibernate.show_sql">true</prop>
-                <!-- 格式化sql -->
-                <prop key="hibernate.format_sql">false</prop>
-                <prop key="hibernate.use_sql_comments">false</prop>
-                <!-- 配置数据库事务隔离级别 -->
-                <prop key="hibernate.connection.isolation">2</prop>
-                <!-- hibernate 数据验证 -->
-                <prop key="javax.persistence.validation.mode">none</prop>
-            </props>
-        </property>
-    </bean>
-    
-    <!-- jdbcTemplate -->
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">  
-        <property name = "dataSource" ref="dataSource"></property>
-	</bean>
-	<bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">  
-        <constructor-arg ref="dataSource" />
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialPoolSize" value="${connection_pools.initial_pool_size}" />
+		<property name="minPoolSize" value="${connection_pools.min_pool_size}" />
+		<property name="maxPoolSize" value="${connection_pools.max_pool_size}" />
+		<property name="maxIdleTime" value="${connection_pools.max_idle_time}" />
+		<property name="acquireIncrement" value="${connection_pools.acquire_increment}" />
+		<property name="checkoutTimeout" value="${connection_pools.checkout_timeout}" />
 	</bean>
 
-   <!--  Jpa 事务管理器 -->
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory" />
-    </bean>
-    
-    <!-- 重要配置：能够使Spring扫描JPA Repository 自动实现dao层 -->
-    <jpa:repositories base-package="com.ctgf"  transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory"/>
-   
-   	<!-- <bean id="auditorBean" class="com.eahsoft.springframework.util.NullAuditorBean"/>
-	<jpa:auditing auditor-aware-ref="auditorBean"/> -->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.ctgf.wxmes.entity" />
+		<property name="persistenceProvider">
+			<bean class="org.hibernate.jpa.HibernatePersistenceProvider" />
+		</property>
+
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="generateDdl" value="false" />
+			</bean>
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<!-- hibernate设置方言 数据库引擎相关 -->
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+				<prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+				<prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
+				<!-- 设置二级缓存的开启关闭 -->
+				<prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+				<!-- 设置hibernate批量读取及数据提交 -->
+				<prop key="hibernate.jdbc.fetch_size">${hibernate.jdbc.fetch_size}</prop>
+				<prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch_size}</prop>
+				<!-- 1.create：表示启动的时候先drop，再create 2.create-drop: 也表示创建，只不过再系统关闭前执行一下drop 3.update: 这个操作启动的时候会去检查schema是否一致，如果不一致会做scheme更新 4.validate: 启动时验证现有schema与你配置的hibernate是否一致，如果不一致就抛出异常，并不做更新 -->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<!-- 显示数据库操作 -->
+				<prop key="hibernate.show_sql">true</prop>
+				<!-- 格式化sql -->
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.use_sql_comments">false</prop>
+				<!-- 配置数据库事务隔离级别 -->
+				<prop key="hibernate.connection.isolation">2</prop>
+				<!-- hibernate 数据验证 -->
+				<prop key="javax.persistence.validation.mode">none</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- jdbcTemplate -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg ref="dataSource" />
+	</bean>
+
+	<!-- Jpa 事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<!-- 重要配置：能够使Spring扫描JPA Repository 自动实现dao层 -->
+	<jpa:repositories base-package="com.ctgf" transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory" />
+
+	<!-- <bean id="auditorBean" class="com.eahsoft.springframework.util.NullAuditorBean"/> <jpa:auditing auditor-aware-ref="auditorBean"/> -->
 	<!-- 自动插入时间 -->
-<jpa:auditing set-dates="true"/>
-   
-  	<!-- 开启注解事务 -->
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+	<jpa:auditing set-dates="true" />
+
+	<!-- 开启注解事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
 </beans>
